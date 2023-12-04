@@ -1,19 +1,21 @@
 {
-  "name": "n8n-nodes-<...>",
-  "version": "0.1.0",
-  "description": "",
+  "name": "n8n-nodes-veeamspc",
+  "version": "0.2.0",
+  "description": "Consume the Veeam SPC REST API",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n-community-node-package",
+    "veeam",
+    "backup"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/wayneboyles/n8n-nodes-veeamspc",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Wayne Boyles",
+    "email": "nobody@nowhere.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/wayneboyles/n8n-nodes-veeamspc.git"
   },
   "main": "index.js",
   "scripts": {
@@ -30,12 +32,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ExampleCredentialsApi.credentials.js",
-      "dist/credentials/HttpBinApi.credentials.js"
+      "dist/credentials/VeeamSpcApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ExampleNode/ExampleNode.node.js",
-      "dist/nodes/HttpBin/HttpBin.node.js"
+
     ]
   },
   "devDependencies": {
