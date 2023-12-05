@@ -2,18 +2,24 @@ import type {
 	IDataObject,
 	IExecuteFunctions,
 	INodeExecutionData,
-	INodeType, INodeTypeDescription
+	INodeType,
+	INodeTypeDescription,
+	ILoadOptionsFunctions,
+	INodePropertyOptions
 } from 'n8n-workflow';
 
 import {
 	aboutFields,
-	aboutOperations
+	aboutOperations,
+	licensingFields,
+	licensingOperations
 } from './Descriptions';
 
 import {
 	veeamSpcResources,
 	veeamSpcApiRequest,
-	simplifyVeeamSpcOutput
+	simplifyVeeamSpcOutput,
+	veeamSpcApiRequestAllItems
 } from './GenericFunctions';
 
 export class VeeamSpc implements INodeType {
@@ -49,14 +55,34 @@ export class VeeamSpc implements INodeType {
 			},
 			...aboutOperations,
 			...aboutFields,
+			...licensingOperations,
+			...licensingFields
 		]
 	};
 
-	// methods = {
-	// 	loadOptions: {
+	methods = {
+		loadOptions: {
+			async getVeeamSpcCompanies(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const response = (await veeamSpcApiRequestAllItems.call(
+					this,
+					'companies',
+					'GET',
+					'/organizations/companies'
+				)) as IDataObject[];
 
-	// 	}
-	// };
+				console.info(response);
+
+				const options = response.map((company) => {
+					return {
+						name: company.name as string,
+						value: company.instanceUid as string
+					};
+				});
+
+				return options.sort((a, b) => a.name.localeCompare(b.name));
+			}
+		}
+	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		let responseData;
